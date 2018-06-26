@@ -13,7 +13,7 @@ module.exports = (client, message) => {
     logger.info(`${message.author.username} in ${location} - ${message.content}`)
     
     //Strip the prefix off the start of the message and split the arguments
-    argsIn = message.content.slice(settings.prefix.length).trim().split(/ +/g);
+    argsIn = message.content.slice(client.config.PREFIX.length).trim().split(/ +/g);
     argsOut = []
 
     //Get the first argumemt following the prefix
