@@ -1,0 +1,26 @@
+{
+  "name": "urpg-discord",
+  "version": "1.0.0",
+  "description": "For the development of URPG's Discord integration",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Monbrey/urpg-discord.git"
+  },
+  "author": "URPG",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/Monbrey/urpg-discord/issues"
+  },
+  "homepage": "https://github.com/Monbrey/urpg-discord#readme",
+  "dependencies": {
+    "discord.js": "^11.3.2",
+    "enmap": "^2.6.3",
+    "enmap-level": "^2.1.0",
+    "heroku-logger": "^0.3.1",
+    "mongoose": "^5.1.6"
+  }
+}
