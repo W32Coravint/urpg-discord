@@ -59,3 +59,7 @@ typings/
 
 # next.js build output
 .next
+
+# manual ignores
+app/config.js
+
