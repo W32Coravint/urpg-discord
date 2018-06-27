@@ -74,6 +74,7 @@ ${pingList}`)
 }
 
 exports.conf = {
+    name: "ffa",
     enabled: true
 }
 

@@ -118,6 +118,7 @@ exports.run = (client, message, args) => {
 }
 
 exports.conf = {
+    name: "move",
     enabled: true
 }
 

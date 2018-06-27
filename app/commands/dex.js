@@ -57,6 +57,7 @@ exports.run = (client, message, args) => {
 }
 
 exports.conf = {
+    name: "dex",
     enabled: true
 }
 

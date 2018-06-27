@@ -90,6 +90,7 @@ exports.run = (client, message, args) => {
 }
 
 exports.conf = {
+    name: "item",
     enabled: true
 }
 

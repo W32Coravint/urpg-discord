@@ -10,6 +10,7 @@ getAnnouncement = (announce) => {
         default: return ""
     }
 }
+
 exports.run = (client, message, args) => {
     if(args.length == 0) return
 
@@ -103,6 +104,7 @@ exports.run = (client, message, args) => {
 }
 
 exports.conf = {
+    name: "ability",
     enabled: true
 }
 

@@ -75,6 +75,7 @@ exports.run = (client, message, args) => {
 }
 
 exports.conf = {
+    name: "info",
     enabled: true
 }
 
