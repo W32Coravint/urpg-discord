@@ -26,6 +26,7 @@ Any issues or feature requests, DM Monbrey or open an issue on the Github.`,
 }
 
 exports.conf = {
+    name: "help",
     enabled: true
 }
 

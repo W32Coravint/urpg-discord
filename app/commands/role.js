@@ -87,6 +87,7 @@ exports.init = (client) => {
 }
 
 exports.conf = {
+    name: "role",
     enabled: true
 }
 

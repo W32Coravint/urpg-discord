@@ -60,6 +60,7 @@ exports.run = (client, message, args) => {
 }
 
 exports.conf = {
+    name: "weight",
     enabled: true
 }
 

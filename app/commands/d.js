@@ -42,6 +42,7 @@ exports.run = (client, message, args) => {
 }
 
 exports.conf = {
+    name: "d",
     enabled: true,
     aliases: ['dice','roll-dice']
 }

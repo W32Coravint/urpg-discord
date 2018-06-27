@@ -15,13 +15,16 @@ client.loadCommand = (commandName) => {
         const command = require(`${__dirname}/commands/${commandName}`)
         //client.logger.log(`Loading Command: ${props.help.name}`)
 
+        if(!command.conf.enabled)
+            return
+
         if (command.init) {
             command.init(client)
         }
-        client.commands.set(command.help.name, command)
+        client.commands.set(command.conf.name, command)
         if(command.conf.aliases) {
             command.conf.aliases.forEach(alias => {
-                client.aliases.set(alias, command.help.name)
+                client.aliases.set(alias, command.conf.name)
             });
         }
         return false

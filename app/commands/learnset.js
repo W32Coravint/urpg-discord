@@ -104,6 +104,7 @@ exports.run = (client, message, args) => {
 }
 
 exports.conf = {
+    name: "learnset",
     enabled: true
 }
 
