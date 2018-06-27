@@ -11,8 +11,10 @@ To get up and running with your own development version of the URPG Discord bot
 3. Run `npm install` to install all required npm packages and dependencies
 4. Create an app on the [Discord Developer Portal](https://discordapp.com/developers/docs/intro)
 5. Create a Bot user for the app and copy the token to `./app/config.js` under DISCORD_TOKEN
-6. Enter a connection URI for a MongoDB under MONGODB_URI. I can provide the URI for the existing database
-7. Run `node index.js` to launch the bot
+6. Generate an OAuth2 URL. Leave the default **Bot** selected.
+7. Open the provided URL in a browser window to add your bot to a server, or provide the URL to server owners
+8. Enter a connection URI for a MongoDB under MONGODB_URI. I can provide the URI for the existing database
+9. Run `node index.js` to launch the bot
 
 ## Developing and contributing changes
 
