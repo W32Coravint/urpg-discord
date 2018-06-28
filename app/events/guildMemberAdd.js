@@ -9,4 +9,6 @@ module.exports = (client, guildMember) => {
      * Probably also beneficial to require('../util/getHelp.js')
      * and use that for bot command output */
     user.send(`Hi ${user.username}, and welcome to ${server.name}!`)
+
+    logger.info(`${user.username} joined ${server.name}`, {key: 'guildMemberAdd'})
 }
