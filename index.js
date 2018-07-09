@@ -25,13 +25,18 @@ process.on('SIGINT', function() {
 });
 
 urpgbot.on('ready', () => {
-    try {
+    if(urpgbot.config.OWNER) {
         urpgbot.fetchUser(urpgbot.config.OWNER).then((user) => {
             user.send("URPG Discord bot started")
         })
-    } catch(e) {
-        logger.info('Owner ID incorrect or undefined.')
+        .catch((error) => {
+            logger.info("Owner ID incorrect - no matching user found")
+        })
     }
+    else {
+        logger.info("No owner ID provided")
+    }
+    
     urpgbot.init()
 })
 

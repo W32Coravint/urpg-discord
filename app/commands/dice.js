@@ -42,9 +42,9 @@ exports.run = (client, message, args) => {
 }
 
 exports.conf = {
-    name: "d",
+    name: "dice",
     enabled: true,
-    aliases: ['dice','roll-dice']
+    aliases: ['d','roll-dice']
 }
 
 exports.help = {
