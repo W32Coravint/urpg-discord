@@ -14,7 +14,7 @@ db.on('error', (err) => {
     logger.error(`Mongoose default connection error: ${err}`)
 })
 db.on('disconnected', () => {
-    console.warn(`Mongoose default connection disconnected`)
+    logger.warn(`Mongoose default connection disconnected`)
 })
 
 process.on('SIGINT', function() {
@@ -29,7 +29,7 @@ urpgbot.on('ready', () => {
         urpgbot.fetchUser(urpgbot.config.OWNER).then((user) => {
             user.send("URPG Discord bot started")
         })
-        .catch((error) => {
+        .catch(() => {
             logger.info("Owner ID incorrect - no matching user found")
         })
     }
