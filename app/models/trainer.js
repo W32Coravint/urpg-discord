@@ -11,6 +11,7 @@ var trainerSchema = new Schema({
         wins: { type: Number, default: 0 }, 
         losses: { type: Number, default: 0 } 
     },
+    ffaPing: { type: Boolean, default: false },
     starter: { type: String },
     canChangeStarter: { type: Boolean, default: true }
 })
