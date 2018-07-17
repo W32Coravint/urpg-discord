@@ -15,7 +15,7 @@ exports.run = (client, message, args) => {
     if(args.length == 0) return
 
     var search = args.join(' ')
-    Ability.findOne({ 'abilityName': new RegExp(`^${search}$`, 'i') }, (err, result) => {
+    Ability.findOne().exact(search).exec((err, result) => {
         if(err) {
             message.channel.send("Unknown error querying the database - let Monbrey know.")
             return
@@ -49,7 +49,7 @@ exports.run = (client, message, args) => {
             message.channel.send({'embed':embed})
         }
         else {
-            Ability.find({ 'abilityName': new RegExp(search, 'i') }, (err, result) => {
+            Ability.find().partial(search).exec((err, result) => {
                 switch (result.length) {
                     case 0:
                         message.channel.send(`No results found for ${search}`)
