@@ -1,6 +1,4 @@
-const mongoose = require('mongoose')
 const logger = require('heroku-logger')
-const Ability = require('../models/ability')
 
 getAnnouncement = (announce) => {
     switch(announce) {
@@ -15,7 +13,7 @@ exports.run = (urpgbot, message, args) => {
     if(args.length == 0) return
 
     var search = args.join(' ')
-    Ability.findOne().exact(search).exec((err, result) => {
+    urpgbot.models.ability.findOne().exact(search).exec((err, result) => {
         if(err) {
             message.channel.send("Unknown error querying the database - the technical team has been notified")
             
@@ -50,7 +48,7 @@ exports.run = (urpgbot, message, args) => {
             message.channel.send({'embed':embed})
         }
         else {
-            Ability.find().partial(search).exec((err, result) => {
+            urpgbot.models.ability.find().partial(search).exec((err, result) => {
                 switch (result.length) {
                     case 0:
                         message.channel.send(`No results found for ${search}`)

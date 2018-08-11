@@ -1,16 +1,14 @@
-const mongoose = require('mongoose')
 const logger = require('heroku-logger')
-const Species = require('../models/species')
 
 confirmSpecies = (message, speciesName, callback) => {
-    Species.findOne({'speciesName': new RegExp(`^${speciesName}$`, 'i')}, (err, result) => {
+    urpgbot.models.species.findOne({'speciesName': new RegExp(`^${speciesName}$`, 'i')}, (err, result) => {
         if(err) {
             message.channel.send("Unknown error querying the database - let Monbrey know.")
             logger.error(`DB error while searching for ${speciesName}`, {key: 'item'})
             return
         }
         if(!result || result.length == 0) {
-            Species.find({'speciesName': new RegExp(speciesName, 'i')}, (err, result) => {
+            urpgbot.models.species.find({'speciesName': new RegExp(speciesName, 'i')}, (err, result) => {
                 if(err) {
                     message.channel.send("Unknown error querying the database - let Monbrey know.")
                     logger.error(`DB error while searching for ${speciesName}`, {key: 'item'})

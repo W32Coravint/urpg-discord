@@ -1,10 +1,8 @@
 const logger = require('heroku-logger')
-const Trainer = require('../models/trainer')
-const Species = require('../models/species')
 
 findExactSpecies = (message, speciesName, callback, error) => {
     //Exact match the species
-    Species.findOne({
+    urpgbot.models.species.findOne({
         'speciesName': new RegExp(`^${speciesName}$`, 'i')
     }, (err, result) => {
         if (err) {
@@ -27,7 +25,7 @@ findExactSpecies = (message, speciesName, callback, error) => {
 }
 
 findPartialSpecies = (message, speciesName, callback, error) => {
-    Species.find({
+    urpgbot.models.species.find({
         'speciesName': new RegExp(speciesName, 'i')
     }, (err, result) => {
         if (err) {

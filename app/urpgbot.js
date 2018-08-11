@@ -8,7 +8,6 @@ urpgbot.config = require('./config.js')
 
 urpgbot.commands = new Enmap()
 urpgbot.aliases = new Enmap()
-urpgbot.util = {}
 
 urpgbot.loadCommand = (commandName) => {
     try {
@@ -34,14 +33,26 @@ urpgbot.loadCommand = (commandName) => {
 }
 
 urpgbot.init = async () => {
-    const utlFiles = await readdir(`${__dirname}/util/`)
-    utlFiles.forEach(f => {
+    //Load in all the utility files directly to the bot
+    const utilFiles = await readdir(`${__dirname}/util/`)
+    utilFiles.forEach(f => {
         if(!f.endsWith('.js')) return;
-        const eventName = f.split('.')[0];
-        urpgbot.util[eventName] = require(`${__dirname}/util/${f}`)
+        const utilName = f.split('.')[0];
+        urpgbot[utilName] = require(`${__dirname}/util/${f}`)
         delete require.cache[require.resolve(`${__dirname}/util/${f}`)]
     })
 
+    //Load in all the Mongoose models
+    const modelFiles = await readdir(`${__dirname}/models/`)
+    urpgbot.models = []
+    modelFiles.forEach(f => {
+        if(!f.endsWith('.js')) return;
+        const modelName = f.split('.')[0];
+        urpgbot.models[modelName] = require(`${__dirname}/models/${f}`)
+        delete require.cache[require.resolve(`${__dirname}/models/${f}`)]
+    })
+
+    //Then load the commands
     const cmdFiles = await readdir(`${__dirname}/commands/`)
     cmdFiles.forEach(f => {
         if(!f.endsWith('.js')) return
@@ -49,6 +60,7 @@ urpgbot.init = async () => {
         if (response) console.log(response)
     })
 
+    //Finally, load the event handlers
     const evtFiles = await readdir(`${__dirname}/events/`)
     evtFiles.forEach(f => {
         if(!f.endsWith('.js')) return

@@ -1,9 +1,8 @@
 const mongoose = require('mongoose')
 const logger = require('heroku-logger')
-const Item = require('../models/item')
 
 searchByType = (message, search) => {
-    Item.find({ "correspondingType": new RegExp(`^${search}$`, 'i') }, (err, result) => {
+    urpgbot.models.item.find({ "correspondingType": new RegExp(`^${search}$`, 'i') }, (err, result) => {
         if(err) {
             message.channel.send("Unknown error querying the database - let Monbrey know.")
             logger.error(`DB error while searching for ${search}`, {key: 'item'})
@@ -31,7 +30,7 @@ searchByType = (message, search) => {
 }
 
 searchByName = (message, search) => {
-    Item.findOne({ "itemName": new RegExp(`^${search}$`, 'i') }, (err, result) => {
+    urpgbot.models.item.findOne({ "itemName": new RegExp(`^${search}$`, 'i') }, (err, result) => {
         if(err) {
             message.channel.send("Unknown error querying the database - let Monbrey know.")
             return

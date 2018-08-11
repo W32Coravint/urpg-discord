@@ -1,6 +1,5 @@
 const logger = require('heroku-logger')
 const request = require('request')
-const Species = require('../models/species')
 
 exports.run = (urpgbot, message, args) => {
     var embed =  {
@@ -22,27 +21,25 @@ exports.run = (urpgbot, message, args) => {
 
         request({
             "rejectUnauthorized": false,
-            "url": `https://pokemonurpg.com:8443/pokemon/name/${dex}`
+            "url": `https://pokemonurpg.com:8443/pokemon/name/${encodeURI(dex)}`
         }, (err, res, body) => {
             if(!err) {
                 data = JSON.parse(body)
-                if(JSON.parse(body).dex != "") {
+                if(data.dex != "") {
                     embed.fields.push({
                         name: "URPG Ultradex",
-                        value: `https://pokemonurpg.com/pokemon/${dex}`
+                        value: `https://pokemonurpg.com/pokemon/${encodeURI(data.name).replace(/\./g, "%2E")}`
                     })
                     embed.color = parseInt(urpgbot.util.colorMap[data.type1.toLowerCase()], 16)
                 }
             }
             else console.error(err)
 
-            request(`https://bulbapedia.bulbagarden.net/wiki/${dex}`, (err, res, body) => {
-                console.log(res.statusCode)
-                console.log(`https://bulbapedia.bulbagarden.net/wiki/${dex}`)
+            request(`https://bulbapedia.bulbagarden.net/wiki/${encodeURI(dex)}`, (err, res, body) => {
                 if(!err && res.statusCode != 404) {
                     embed.fields.push({
                         name: "Bulbapedia",
-                        value: `https://bulbapedia.bulbagarden.net/wiki/${dex}`
+                        value: `https://bulbapedia.bulbagarden.net/wiki/${encodeURI(dex)}`
                     })
                 }
 
@@ -52,7 +49,7 @@ exports.run = (urpgbot, message, args) => {
         })
     })
 
-    logger.info(`${message.author.username} searched for ${dex}`,{key:'dex'})
+    logger.info(`${message.author.username} searched for ${search}`,{key:'dex'})
 }
 
 exports.conf = {

@@ -1,6 +1,4 @@
 const logger = require('heroku-logger')
-const mongoose = require('mongoose')
-const PingUser = require('../models/pingUser')
 
 exports.run = (urpgbot, message, args) => {
     if(message.flags.length != 1) {
@@ -16,7 +14,7 @@ exports.run = (urpgbot, message, args) => {
 
     switch(message.flags[0]) {
         case 'a':
-            PingUser.findOneAndUpdate({discord_id: message.author.id}, object, { upsert: true }, (err, result) => {
+            urpgbot.models.pingUser.findOneAndUpdate({discord_id: message.author.id}, object, { upsert: true }, (err, result) => {
                 if(err) {
                     message.channel.send(`Error adding ${message.author} to the ping list - let Monbrey know.`)
                     return
@@ -29,7 +27,7 @@ exports.run = (urpgbot, message, args) => {
             })
             break
         case 'r':
-            PingUser.findOneAndRemove({discord_id: message.author.id}, (err, result) => {
+            urpgbot.models.pingUser.findOneAndRemove({discord_id: message.author.id}, (err, result) => {
                 if(err) {
                     message.channel.send(`Database error removing ${message.author} from the ping list - let Monbrey know.`)
                     return
@@ -47,7 +45,7 @@ exports.run = (urpgbot, message, args) => {
             if(channel && referee) {
                 pingList = ""
                 count = 1
-                PingUser.find().sort({username:1}).exec((err, list) => {
+                urpgbot.models.pingUser.find().sort({username:1}).exec((err, list) => {
                     list.forEach((user) => {
                         if(user.discord_id != message.author.id)
                             pingList += "<@"+user.discord_id+">\n"
