@@ -1,7 +1,7 @@
 const logger = require('heroku-logger')
 const scripts = require('../util/scripts')
 
-module.exports = (client, guildMember) => {
+module.exports = (urpgbot, guildMember) => {
 	server = guildMember.guild
 	user = guildMember.user
 

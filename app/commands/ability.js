@@ -11,13 +11,14 @@ getAnnouncement = (announce) => {
     }
 }
 
-exports.run = (client, message, args) => {
+exports.run = (urpgbot, message, args) => {
     if(args.length == 0) return
 
     var search = args.join(' ')
     Ability.findOne().exact(search).exec((err, result) => {
         if(err) {
-            message.channel.send("Unknown error querying the database - let Monbrey know.")
+            message.channel.send("Unknown error querying the database - the technical team has been notified")
+            
             return
         }
         if(result) {

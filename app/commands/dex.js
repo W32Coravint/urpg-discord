@@ -1,9 +1,8 @@
 const logger = require('heroku-logger')
 const request = require('request')
 const Species = require('../models/species')
-const Colour = require('../util/colorMap')
 
-exports.run = (client, message, args) => {
+exports.run = (urpgbot, message, args) => {
     var embed =  {
         title: "Pokedex Search",
         description: `Searching URPG and online Pokedexes...`,
@@ -32,7 +31,7 @@ exports.run = (client, message, args) => {
                         name: "URPG Ultradex",
                         value: `https://pokemonurpg.com/pokemon/${dex}`
                     })
-                    embed.color = parseInt(Colour[data.type1.toLowerCase()], 16)
+                    embed.color = parseInt(urpgbot.util.colorMap[data.type1.toLowerCase()], 16)
                 }
             }
             else console.error(err)

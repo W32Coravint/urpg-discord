@@ -78,7 +78,7 @@ searchByName = (message, search) => {
     })
 }
 
-exports.run = (client, message, args) => {
+exports.run = (urpgbot, message, args) => {
     if(args.length == 0) return
     
     var search = args.join(' ')

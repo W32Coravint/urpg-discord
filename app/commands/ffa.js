@@ -2,7 +2,7 @@ const logger = require('heroku-logger')
 const mongoose = require('mongoose')
 const PingUser = require('../models/pingUser')
 
-exports.run = (client, message, args) => {
+exports.run = (urpgbot, message, args) => {
     if(message.flags.length != 1) {
         message.channel.send(`The !ffa command must be run with a single flag:
         \`\`\`${exports.help.usage}\`\`\``)

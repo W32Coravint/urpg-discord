@@ -38,10 +38,10 @@ Events documented under the [Client](https://discord.js.org/#/docs/main/stable/c
 
 Event handlers go in the `./app/events` directory, and should be match the name of the event handler. For example, the 'message' event is in `./app/events/message.js`.
 
-The event handler module should export an event handler function which takes the **client** and any **event parameters**
+The event handler module should export an event handler function which takes the **client (urpgbot)** and any **event parameters**
 
 ```javascript
-module.exports = (client, message) => {
+module.exports = (urpgbot, message) => {
     //Handle the message event
 }
 ```
@@ -94,14 +94,14 @@ All variables will only accept positive integers`
 
 The **run** object is the function responsible for handling the command. All **run** functions take three parameters
 
- - client - The Discord.js [Client](https://discord.js.org/#/docs/main/stable/class/Client) object. Can be used for all interactions with Discord
+ - urpgbot - The Discord.js [Client](https://discord.js.org/#/docs/main/stable/class/Client) object. Can be used for all interactions with Discord
  - message - The [Message](https://discord.js.org/#/docs/main/stable/class/Message) object which was passed through the message event handler
  - args - The command arguments which were extracted from the message event handler. Any arguments which mention a user will be converted to the full [GuildMember](https://discord.js.org/#/docs/main/stable/class/GuildMember) object.
 
 In most cases the **Client** object is not required, as message handling can be entirely with the **Message**. It is *strongly recommended* that you familiarise yourself with the **Message** object and how to use it.
 
 ```javascript
-exports.run = (client, message, args) => {
+exports.run = (urpgbot, message, args) => {
     message.author.send("It's really easy to reply to the author of the message")
     message.channel.send("Or reply in the public channel in which the message was sent")
     message.react(':O') //But seriously, learn how to use this.

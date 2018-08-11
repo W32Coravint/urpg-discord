@@ -36,7 +36,7 @@ ${speciesNames.join('\n')}`)
     })
 }
 
-exports.run = (client, message, args) => {
+exports.run = (urpgbot, message, args) => {
     if(args.length == 0) return
     
     confirmSpecies(message, args[0], (response) => {

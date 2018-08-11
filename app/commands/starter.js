@@ -1,7 +1,6 @@
 const logger = require('heroku-logger')
 const Trainer = require('../models/trainer')
 const Species = require('../models/species')
-const scripts = require('../util/scripts')
 
 findExactSpecies = (message, speciesName, callback, error) => {
     //Exact match the species
@@ -57,8 +56,8 @@ findPartialSpecies = (message, speciesName, callback, error) => {
     })
 }
 
-confirmStarter = (client, message, result) => {
-    message.channel.send(scripts.starter.confirm(result)).then(sentMessage => {
+confirmStarter = (urpgbot, message, result) => {
+    message.channel.send(urpgbot.util.scripts.starter.confirm(result)).then(sentMessage => {
         sentMessage.react("✅").then(() => {
             sentMessage.react("❌").then(() => {
                 filter = (reaction, user) => ["✅","❌"].includes(reaction.emoji.name) && user.id === message.author.id
@@ -87,7 +86,7 @@ rejectStarter = (message, result) => {
     console.log("Rejected")
 }
 
-exports.run = (client, message, args) => {
+exports.run = (urpgbot, message, args) => {
     //Reject the request if no starter was provided
     if (args.length == 0) {
         message.channel.send(`You need to specify a starter Pokemon!`)
@@ -99,17 +98,17 @@ exports.run = (client, message, args) => {
     //Lookup the starter in the Species database
     findExactSpecies(message, args[0], (err, result) => {
         if (err) {
-            message.channel.send(scripts.starter[err](result))
+            message.channel.send(urpgbot.util.scripts.starter[err](result))
             return
         }
         if (result) {
-            confirmStarter(client, message, result)
+            confirmStarter(urpgbot, message, result)
         } else findPartialSpecies(message, args[0], (err, result) => {
             if (err) {
-                message.channel.send(scripts.starter[err])
+                message.channel.send(urpgbot.util.scripts.starter[err])
                 return
             }
-            if (result) confirmStarter(client, message, result)
+            if (result) confirmStarter(urpgbot, message, result)
         })
     })
 
@@ -143,7 +142,7 @@ exports.run = (client, message, args) => {
     */
 }
 
-exports.init = (client) => {
+exports.init = (urpgbot) => {
 
 }
 

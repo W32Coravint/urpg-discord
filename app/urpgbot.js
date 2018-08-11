@@ -2,29 +2,29 @@ const Discord = require('discord.js')
 const { promisify } = require('util')
 const readdir = promisify(require('fs').readdir)
 const Enmap = require('enmap')
-const EnmapLevel = require('enmap-level')
 
-var client = new Discord.Client()
-client.config = require('./config.js')
+var urpgbot = new Discord.Client()
+urpgbot.config = require('./config.js')
 
-client.commands = new Enmap()
-client.aliases = new Enmap()
+urpgbot.commands = new Enmap()
+urpgbot.aliases = new Enmap()
+urpgbot.util = {}
 
-client.loadCommand = (commandName) => {
+urpgbot.loadCommand = (commandName) => {
     try {
         const command = require(`${__dirname}/commands/${commandName}`)
-        //client.logger.log(`Loading Command: ${props.help.name}`)
+        //urpgbot.logger.log(`Loading Command: ${props.help.name}`)
 
         if(!command.conf.enabled)
             return
 
         if (command.init) {
-            command.init(client)
+            command.init(urpgbot)
         }
-        client.commands.set(command.conf.name, command)
+        urpgbot.commands.set(command.conf.name, command)
         if(command.conf.aliases) {
             command.conf.aliases.forEach(alias => {
-                client.aliases.set(alias, command.conf.name)
+                urpgbot.aliases.set(alias, command.conf.name)
             });
         }
         return false
@@ -33,11 +33,19 @@ client.loadCommand = (commandName) => {
     }
 }
 
-client.init = async () => {
+urpgbot.init = async () => {
+    const utlFiles = await readdir(`${__dirname}/util/`)
+    utlFiles.forEach(f => {
+        if(!f.endsWith('.js')) return;
+        const eventName = f.split('.')[0];
+        urpgbot.util[eventName] = require(`${__dirname}/util/${f}`)
+        delete require.cache[require.resolve(`${__dirname}/util/${f}`)]
+    })
+
     const cmdFiles = await readdir(`${__dirname}/commands/`)
     cmdFiles.forEach(f => {
         if(!f.endsWith('.js')) return
-        const response = client.loadCommand(f)
+        const response = urpgbot.loadCommand(f)
         if (response) console.log(response)
     })
 
@@ -46,9 +54,9 @@ client.init = async () => {
         if(!f.endsWith('.js')) return
         const eventName = f.split('.')[0];
         const event = require(`${__dirname}/events/${f}`)
-        client.on(eventName, event.bind(null, client))
+        urpgbot.on(eventName, event.bind(null, urpgbot))
         delete require.cache[require.resolve(`${__dirname}/events/${f}`)]
     })
 }
 
-module.exports = client
+module.exports = urpgbot
