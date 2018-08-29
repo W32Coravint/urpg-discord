@@ -1,9 +1,6 @@
-const mongoose = require('mongoose')
 const logger = require('heroku-logger')
-const Move = require('../models/move')
-const Colour = require('../util/colorMap')
 
-generateSingle = (r) => {
+generateSingle = (urpgbot, r) => {
     embed = { 
         title: `${r.moveName}`,
         description: `
@@ -12,7 +9,7 @@ generateSingle = (r) => {
 ${r.desc} ${r.contact ? "Makes contact. ": ""}${r.sheerForce ? "Boosted by Sheer Force. " : ""}${r.substitute ? "Bypasses Substitute. " : ""}${r.snatch ? "Can be Snatched. " : ""}${r.magicCoat ? "Can be reflected by Magic Coat. " : ""}`,
         fields: [],
         footer: ``,
-        color: parseInt(Colour[r.moveType.toLowerCase()], 16)
+        color: parseInt(urpgbot.util.colorMap[r.moveType.toLowerCase()], 16)
     }
     if(r.note) {
         embed.footer = {
@@ -47,10 +44,10 @@ ${r.desc} ${r.contact ? "Makes contact. ": ""}${r.sheerForce ? "Boosted by Sheer
 getRandom = (callback) => {
     invalid = ["After You","Assist","Bestow","Chatter","Copycat","Counter","Covet","Destiny Bond","Detect","Endure","Feint","Focus Punch","Follow Me","Freeze Shock","Helping Hand","Ice Burn","King's Shield","Me First","Metronome","Mimic","Mirror Coat","Mirror Move","Nature Power","Protect","Quash","Quick Guard","Rage Powder","Relic Song","Secret Sword","Sketch","Sleep Talk","Snarl","Snatch","Snore","Spiky Shield","Struggle","Switcheroo","Techno Blast","Thief","Transform","Trick","Wide Guard","V-Create"]
 
-    Move.count().exec((err, count) => {
+    urpgbot.models.move.count().exec((err, count) => {
         randNum = Math.floor(Math.random() * count)
 
-        Move.findOne().skip(randNum).exec((err, result) => {
+        urpgbot.models.move.findOne().skip(randNum).exec((err, result) => {
             console.log(result)
             if(invalid.indexOf(result.moveName) > -1)
                 getRandom(callback)
@@ -60,7 +57,7 @@ getRandom = (callback) => {
     })
 }
 
-exports.run = (client, message, args) => {
+exports.run = (urpgbot, message, args) => {
     if(args.length == 0 && message.flags.length == 0) {
         message.channel.send(`\`\`\`Invalid move command
         ${exports.help.usage}\`\`\``)
@@ -71,7 +68,7 @@ exports.run = (client, message, args) => {
 
     if(random) {
         getRandom(result => {
-            message.channel.send({'embed':generateSingle(result)})
+            message.channel.send({'embed':generateSingle(urpgbot, result)})
         })
         return
     }
@@ -84,7 +81,7 @@ exports.run = (client, message, args) => {
             return
         }
         if(result) {
-            message.channel.send({'embed':generateSingle(result)})
+            message.channel.send({'embed':generateSingle(urpgbot, result)})
         }
         else {
             Move.find({ 'moveName': new RegExp(search, 'i') }, (err, result) => {
@@ -93,7 +90,7 @@ exports.run = (client, message, args) => {
                         message.channel.send(`No results found for ${search}`)
                         return
                     case 1:
-                        message.channel.send({'embed':generateSingle(result[0])})
+                        message.channel.send({'embed':generateSingle(urpgbot, result[0])})
                         break
                     default:
                         embed = { title: `${result.length} result(s) found for "${search}"`, fields: [] }
@@ -115,6 +112,9 @@ exports.run = (client, message, args) => {
 
         logger.info(`${message.author.username} searched for ${search}`,{key:'move'})
     })
+}
+
+exports.init = (urpgbot) => {
 }
 
 exports.conf = {

@@ -1,14 +1,9 @@
 const fs = require('fs')
 const logger = require('heroku-logger')
 
-var roleMap = require('../util/roleMap.js')
 var roleList = []
 
-for(key in roleMap) {
-    if(roleMap[key].hasOwnProperty("id")) roleList.push(key)
-}
-
-exports.run = (client, message, args) => {
+exports.run = (urpgbot, message, args) => {
     const flags = message.flags
     const list = flags.indexOf('l') > -1 ? true : false
     const remove = flags.indexOf('r') > -1 ? true : false
@@ -38,13 +33,13 @@ exports.run = (client, message, args) => {
         return
     }
 
-    if(!role.hasOwnProperty("id")) {
-        message.channel.send(`Role "${args[0]}" is not yet configured to be assigned. For a list of roles, type "!role -l".`)
+    if(!role) {
+        message.channel.send(`Role "${args[0]}" not found. For a list of roles, type "!role -l".`)
         return
     }
 
-    if(!role) {
-        message.channel.send(`Role "${args[0]}" not found. For a list of roles, type "!role -l".`)
+    if(!role.hasOwnProperty("id")) {
+        message.channel.send(`Role "${args[0]}" is not yet configured to be assigned. For a list of roles, type "!role -l".`)
         return
     }
 
@@ -93,8 +88,8 @@ exports.run = (client, message, args) => {
     }
 }
 
-exports.init = (client) => {
-    serverRoles = client.guilds.find('name', 'URPG') ? client.guilds.find('name', 'URPG').roles : []
+exports.init = (urpgbot) => {
+    serverRoles = urpgbot.guilds.find(guild => guild.name === "URPG").roles
     unmappedRoles = []
 
     serverRoles.forEach(sRole => {
@@ -104,6 +99,11 @@ exports.init = (client) => {
 
     if(unmappedRoles.length > 0)
         logger.info(`Unmapped roles detected: ${unmappedRoles.join(', ')}`, {key:"role"})
+
+    for(key in urpgbot.util.roleMap) {
+        if(roleMap.hasOwnProperty(key))
+            if(roleMap[key].hasOwnProperty("id")) roleList.push(key)
+    }
 }
 
 exports.conf = {

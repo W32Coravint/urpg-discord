@@ -62,4 +62,4 @@ typings/
 
 # manual ignores
 app/config.js
-
+updateUtils/*

@@ -18,7 +18,8 @@ var speciesSchema = new mongoose.Schema({
     gender: { male: Boolean, female: Boolean },
     martPrice: { pokemart: Number, berryStore: Number },
     rank: { story: String, art: String, park: String },
-    parkLocation: String
+    parkLocation: String,
+    starterEligible: Boolean
 })
 
 module.exports = mongoose.model('Species', speciesSchema)

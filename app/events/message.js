@@ -1,26 +1,26 @@
 const help = require('../util/getHelp.js')
 const logger = require('heroku-logger')
 
-module.exports = (client, message) => {
+module.exports = (urpgbot, message) => {
     //Completely ignore messages from other bots
     if(message.author.bot) return
 
     //Ignore messages that don't start with the command prefix
-    if(message.content.indexOf(client.config.PREFIX) !== 0) return
+    if(message.content.indexOf(urpgbot.config.PREFIX) !== 0) return
 
     //Translate the location of the message for logging purposes - Server (Guild) and channel, or DM
     var location = message.guild ? `${message.guild.name}:${message.channel.name}` :  "DM"
     logger.info(`${message.author.username} in ${location} - ${message.content}`)
     
     //Strip the prefix off the start of the message and split the arguments
-    argsIn = message.content.slice(client.config.PREFIX.length).trim().split(/ +/g);
+    argsIn = message.content.slice(urpgbot.config.PREFIX.length).trim().split(/ +/g);
     argsOut = []
 
     //Get the first argumemt following the prefix
     const commandArg = argsIn.shift().toLowerCase();
 
     //Get the command by name or alias. Do nothing and return if no match. Can output a warning here if needed
-    const cmd = client.commands.get(commandArg) || client.commands.get(client.aliases.get(commandArg))
+    const cmd = urpgbot.commands.get(commandArg) || urpgbot.commands.get(urpgbot.aliases.get(commandArg))
     if(!cmd) return
 
     message.flags = [];
@@ -45,6 +45,6 @@ module.exports = (client, message) => {
     }
     else {
         //Finally, run the command
-        cmd.run(client, message, argsOut)
+        cmd.run(urpgbot, message, argsOut)
     }
 }

@@ -8,4 +8,12 @@ var abilitySchema = new mongoose.Schema({
     affects: String
 })
 
+abilitySchema.query.exact = function(search) {
+    return this.where({ 'abilityName': new RegExp(`^${search}$`, 'i') })
+}
+
+abilitySchema.query.partial = function(search) {
+    return this.where({ 'abilityName': new RegExp(search, 'i') })
+}
+
 module.exports = mongoose.model('Ability', abilitySchema)
