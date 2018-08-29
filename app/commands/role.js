@@ -89,7 +89,7 @@ exports.run = (urpgbot, message, args) => {
 }
 
 exports.init = (urpgbot) => {
-    serverRoles = urpgbot.guilds.find('name', 'URPG').roles
+    serverRoles = urpgbot.guilds.find(guild => guild.name === "URPG").roles
     unmappedRoles = []
 
     serverRoles.forEach(sRole => {

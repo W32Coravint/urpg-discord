@@ -4,7 +4,8 @@ const config = require('./app/config.js')
 const urpgbot = require('./app/urpgbot.js')
 
 mongoose.Promise = global.Promise
-mongoose.connect(process.env.MONGODB_URI || config.MONGODB_URI)
+mongoose.connect(process.env.MONGODB_URI || config.MONGODB_URI, {useNewUrlParser: true})
+mongoose.set('useCreateIndex', true)
 const db = mongoose.connection
 
 db.on('connected', () => {
