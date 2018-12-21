@@ -1,8 +1,7 @@
 const logger = require('heroku-logger')
-var serverRoles = require('../util/roleMap.js')
 
-exports.run = (client, message, args) => {
-    if(message.author_guild._roles.some(r => [serverRoles.moderator.id,serverRoles.official.id].includes(r))) {
+exports.run = (urpgbot, message, args) => {
+    if(message.author_guild._roles.some(r => [urpgbot.util.serverRoles.moderator.id,urpgbot.util.serverRoles.official.id].includes(r))) {
         message.channel.createInvite({
             maxAge: 0,
             maxUses: 1,

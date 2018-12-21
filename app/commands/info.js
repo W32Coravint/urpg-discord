@@ -1,6 +1,6 @@
 const logger = require('heroku-logger')
 
-exports.run = (client, message, args) => {
+exports.run = (urpgbot, message, args) => {
     if(args.length == 0) {
         return
     }

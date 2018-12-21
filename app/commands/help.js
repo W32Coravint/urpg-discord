@@ -1,4 +1,4 @@
-exports.run = (client, message, args) => {
+exports.run = (urpgbot, message, args) => {
     embed = {
         title: "URPG Dicebot",
         description: `URPG's dice and general gamebot developed by Monbrey.
@@ -8,7 +8,7 @@ Any issues or feature requests, DM Monbrey or open an issue on the Github.`,
     }
 
     commandBlock = ""
-    client.commands.forEach(c => {
+    urpgbot.commands.forEach(c => {
         if(c.conf.enabled)
             commandBlock += `!${c.help.name}${" ".repeat(12-c.help.name.length)}${c.help.shortDesc || c.help.description}\n`
     })

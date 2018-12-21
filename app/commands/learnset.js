@@ -1,17 +1,15 @@
 const mongoose = require('mongoose')
 const logger = require('heroku-logger')
-const Species = require('../models/species')
-const SpeciesMove = require('../models/speciesMove')
 
 confirmSpecies = (message, speciesName, callback) => {
-    Species.findOne({'speciesName': new RegExp(`^${speciesName}$`, 'i')}, (err, result) => {
+    urpgbot.models.species.findOne({'speciesName': new RegExp(`^${speciesName}$`, 'i')}, (err, result) => {
         if(err) {
             message.channel.send("Unknown error querying the database - let Monbrey know.")
             logger.error(`DB error while searching for ${speciesName}`, {key: 'item'})
             return
         }
         if(!result || result.length == 0) {
-            Species.find({'speciesName': new RegExp(speciesName, 'i')}, (err, result) => {
+            urpgbot.models.species.find({'speciesName': new RegExp(speciesName, 'i')}, (err, result) => {
                 if(err) {
                     message.channel.send("Unknown error querying the database - let Monbrey know.")
                     logger.error(`DB error while searching for ${speciesName}`, {key: 'item'})
@@ -36,7 +34,7 @@ ${speciesNames.join('\n')}`)
     })
 }
 
-exports.run = (client, message, args) => {
+exports.run = (urpgbot, message, args) => {
     if(args.length == 0) return
     
     confirmSpecies(message, args[0], (response) => {
@@ -51,7 +49,7 @@ exports.run = (client, message, args) => {
         searchParam = {'speciesName': response.speciesName }
         if(method.length > 0) searchParam.method = { $in: method }
 
-        SpeciesMove.find(searchParam, (err, result) => {
+        urpgbot.models.speciesMove.find(searchParam, (err, result) => {
             if(err) {
                 message.channel.send("Unknown error querying the database - let Monbrey know.")
                 logger.error(`DB error while searching for ${response.speciesName}`, {key: 'item'})

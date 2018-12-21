@@ -1,7 +1,7 @@
-exports.run = (client, message, args) => {
+exports.run = (urpgbot, message, args) => {
 }
 
-exports.init = (client) => {
+exports.init = (urpgbot) => {
     
 }
 
